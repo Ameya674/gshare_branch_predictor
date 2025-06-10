@@ -27,3 +27,30 @@ class CustomBP(BranchPredictor):
     globalHistoryBits = Param.Unsigned(6, "Bits of the global history.")
 ```
 
+### 2: Modify `SConscript`
+
+To ensure that your custom branch predictor is compiled correctly, add the following lines at the **end** of `gem5/src/cpu/pred/SConscript`:
+
+```
+Source('custom.cc')
+DebugFlag('Mispredict')
+DebugFlag('CDebug')
+```
+
+### 3: Implementing the Custom GShare Branch Predictor
+
+Navigate to: `gem5/src/cpu/pred`:
+
+Create the following files:
+
+- `custom.hh` – Header file containing class definition and variables
+- `custom.cc` – Source file implementing all required predictor logic
+---
+
+### 4: Finally, build the gem5 project
+
+```
+scons build/ARM/gem5.opt -j$(nproc)
+```
+
+The Custom Branch Predictor can now be simulated on Gem5!
